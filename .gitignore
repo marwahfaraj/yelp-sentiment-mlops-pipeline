@@ -235,6 +235,7 @@ data/*.zip
 data/**/*.parquet
 data/**/*.jsonl
 data/processed_*.csv
+data/batch_inference.csv
 data/baseline_stats.json
 
 # Generated project artifacts

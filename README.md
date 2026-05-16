@@ -1,6 +1,6 @@
 # Yelp Review Sentiment MLOps Pipeline
 
-![Yelp Review Sentiment MLOps Pipeline](assets/yelp_sentiment_mlops_architecture.png)
+![Yelp Sentiment Intelligence Project Overview](assets/yelp_sentiment_project_overview.png)
 
 ## Overview
 
@@ -76,6 +76,8 @@ The local workflow mirrors the same process used in a cloud MLOps system:
 
 ## AWS MLOps Target Architecture
 
+![Yelp Review Sentiment MLOps Architecture](assets/yelp_sentiment_mlops_architecture.png)
+
 The local project is designed so it can be mapped to AWS services:
 
 - Amazon S3 for raw Yelp data, processed datasets, batch inputs, batch outputs, reports, and model artifacts
@@ -99,6 +101,7 @@ See `docs/aws_mlops_plan.md` for the AWS implementation plan.
 ├── requirements.txt
 ├── AAI_540_ML_Design_Document.md
 ├── assets/
+│   ├── yelp_sentiment_project_overview.png
 │   └── yelp_sentiment_mlops_architecture.png
 ├── data/
 │   ├── README.md

@@ -216,3 +216,32 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Project data
+# Keep small sample files in Git, but do not commit the full Yelp Open Dataset.
+.DS_Store
+data/Yelp-JSON.zip
+data/Yelp-Photos.zip
+data/Yelp JSON/
+data/Yelp Photos/
+data/raw/
+data/photos/
+data/yelp_dataset/
+data/yelp_photos/
+data/yelp_academic_dataset_*.json
+data/*.tar
+data/*.tar.gz
+data/*.zip
+data/**/*.parquet
+data/**/*.jsonl
+data/processed_*.csv
+data/baseline_stats.json
+
+# Generated project artifacts
+models/*.json
+models/*.joblib
+models/*.pkl
+reports/*.json
+reports/*.csv
+reports/*.png
+reports/*.md

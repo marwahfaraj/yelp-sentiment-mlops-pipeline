@@ -108,6 +108,15 @@ See `docs/aws_mlops_plan.md` for the AWS implementation plan.
 │   ├── sample_yelp_reviews.csv
 │   ├── Yelp-JSON.zip      # local only, ignored by Git
 │   └── Yelp-Photos.zip    # local only, ignored by Git
+├── notebooks/
+│   ├── 01_setup_S3_bucket.ipynb
+│   ├── 02_data_exploration_EDA.ipynb
+│   ├── 03_feature_engineering_feature_store.ipynb
+│   └── 04_dataset_splits.ipynb
+├── athena_queries/
+│   ├── 01_Create_Athena_Database.ipynb
+│   ├── 02_Register_S3_With_Athena.ipynb
+│   └── 03_Convert_CSV_To_Parquet_With_Athena.ipynb
 ├── src/
 │   ├── prepare_data.py
 │   ├── train.py
@@ -118,7 +127,8 @@ See `docs/aws_mlops_plan.md` for the AWS implementation plan.
 │   └── monitor.py
 ├── docs/
 │   ├── aws_mlops_plan.md
-│   └── project_gap_analysis.md
+│   ├── project_gap_analysis.md
+│   └── week_progress.md
 ├── aws/
 │   ├── README.md
 │   └── sagemaker_pipeline_skeleton.py
@@ -128,33 +138,46 @@ See `docs/aws_mlops_plan.md` for the AWS implementation plan.
 
 ## Running The Project
 
-Run the local pipeline:
+The project has two execution paths. Use the AWS path for the final deliverable; the local path is for fast iteration when you do not have SageMaker available.
+
+### AWS / SageMaker path (final deliverable)
+
+1. **One-time upload from your laptop** of the raw Yelp dataset to S3:
+
+   ```bash
+   aws s3 cp data/Yelp-JSON.zip s3://yelp-sentiment-mlops-<account-id>/raw/yelp-json.zip
+   ```
+
+2. **In SageMaker Studio**, open a terminal and clone this repo:
+
+   ```bash
+   git clone https://github.com/marwahfaraj/yelp-sentiment-mlops-pipeline.git
+   cd yelp-sentiment-mlops-pipeline
+   pip install -r requirements.txt
+   ```
+
+3. **Run the notebooks in order.** Each notebook persists its variables with `%store` so the next notebook can pick them up.
+
+   | Step | Notebook                                                     | Deliverable                                  |
+   |------|--------------------------------------------------------------|----------------------------------------------|
+   | 1    | `notebooks/01_setup_S3_bucket.ipynb`                         | Raw Yelp data lake in S3                     |
+   | 2    | `athena_queries/01_Create_Athena_Database.ipynb`             | `yelp_db` database                           |
+   | 3    | `athena_queries/02_Register_S3_With_Athena.ipynb`            | `yelp_db.reviews_raw` external table         |
+   | 4    | `athena_queries/03_Convert_CSV_To_Parquet_With_Athena.ipynb` | `yelp_db.reviews_parquet` Parquet table      |
+   | 5    | `notebooks/02_data_exploration_EDA.ipynb`                    | EDA charts in `reports/`                     |
+   | 6    | `notebooks/03_feature_engineering_feature_store.ipynb`       | SageMaker Feature Group + 40/10/10/40 splits |
+   | 7    | `notebooks/04_dataset_splits.ipynb`                          | Verified splits + rubric check               |
+
+   This sequence covers every Week module deliverable: S3 data lake, Athena catalog, EDA in a SageMaker notebook, Feature Store, and the 40/10/10/40 train/validation/test/production split.
+
+### Local path (optional fast iteration)
 
 ```bash
 python3 -m src.run_pipeline
-```
-
-This creates:
-
-- `data/processed_train.csv`
-- `data/processed_validation.csv`
-- `data/processed_test.csv`
-- `data/batch_inference.csv`
-- `models/sentiment_baseline.json`
-- evaluation, EDA, model approval, and monitoring reports
-
-Run a single prediction:
-
-```bash
 python3 -m src.predict --text "The food was delicious and the service was fast."
 ```
 
-Optional Hugging Face transformer evaluation:
-
-```bash
-pip install -r requirements.txt
-python3 -m src.evaluate_transformer
-```
+This runs an end-to-end Naive Bayes baseline with EDA, evaluation, quality gate, and monitoring outputs against a small local sample. It does **not** touch AWS.
 
 ## Monitoring Plan
 

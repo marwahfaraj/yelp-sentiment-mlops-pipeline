@@ -1,8 +1,19 @@
-# The core local pipeline uses only the Python standard library.
-# Optional packages for the advanced Hugging Face transformer step.
-transformers
-torch
+# Core data + ML
+pandas
+numpy
+pyarrow
+scikit-learn
 
-# Optional packages for AWS/SageMaker implementation.
+# AWS / SageMaker
 boto3
 sagemaker
+awswrangler
+PyAthena
+
+# Visualization (used by EDA notebook)
+matplotlib
+seaborn
+
+# Optional Hugging Face transformer path (used by src/evaluate_transformer.py)
+transformers
+torch

@@ -9,6 +9,7 @@ boto3
 sagemaker
 awswrangler
 PyAthena
+s3fs
 
 # Visualization (used by EDA notebook)
 matplotlib

@@ -238,11 +238,11 @@ data/processed_*.csv
 data/batch_inference.csv
 data/baseline_stats.json
 
-# Generated project artifacts
+# Model binaries are stored in S3, not Git
 models/*.json
 models/*.joblib
 models/*.pkl
-reports/*.json
-reports/*.csv
-reports/*.png
-reports/*.md
+models/*.tar.gz
+
+# reports/ is committed so EDA charts, metrics, and monitoring outputs
+# referenced by the ML Design Document and notebooks are visible on GitHub.

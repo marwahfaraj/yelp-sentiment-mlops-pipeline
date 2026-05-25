@@ -237,6 +237,7 @@ data/**/*.jsonl
 data/processed_*.csv
 data/batch_inference.csv
 data/baseline_stats.json
+data/reviews_raw.csv
 
 # Model binaries are stored in S3, not Git
 models/*.json

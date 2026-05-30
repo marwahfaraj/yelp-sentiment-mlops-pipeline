@@ -69,7 +69,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--max-features", type=int, default=50000)
     parser.add_argument("--ngram-max", type=int, default=2)
-    parser.add_argument("--c", type=float, default=1.0)
+    parser.add_argument("-c", "--c", type=float, default=1.0)
     parser.add_argument("--max-iter", type=int, default=1000)
     parser.add_argument("--model-dir", type=str, default=os.environ.get("SM_MODEL_DIR", "/opt/ml/model"))
     parser.add_argument("--train", type=str, default=os.environ.get("SM_CHANNEL_TRAIN", "/opt/ml/input/data/train"))

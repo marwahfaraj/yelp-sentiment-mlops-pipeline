@@ -1,0 +1,127 @@
+{
+  "widgets": [
+    {
+      "type": "text",
+      "x": 0,
+      "y": 0,
+      "width": 24,
+      "height": 3,
+      "properties": {
+        "markdown": "# Yelp Sentiment MLOps Week 5 Monitoring\nModel quality, data quality/drift, and SageMaker batch workflow health."
+      }
+    },
+    {
+      "type": "metric",
+      "x": 0,
+      "y": 3,
+      "width": 12,
+      "height": 6,
+      "properties": {
+        "region": "us-east-1",
+        "title": "Model Monitor: Macro F1",
+        "view": "timeSeries",
+        "metrics": [
+          [
+            "YelpSentimentMLOps/Monitoring",
+            "ModelMacroF1",
+            "Project",
+            "YelpSentimentMLOps"
+          ]
+        ],
+        "annotations": {
+          "horizontal": [
+            {
+              "label": "quality gate",
+              "value": 0.8
+            }
+          ]
+        },
+        "yAxis": {
+          "left": {
+            "min": 0,
+            "max": 1
+          }
+        }
+      }
+    },
+    {
+      "type": "metric",
+      "x": 12,
+      "y": 3,
+      "width": 12,
+      "height": 6,
+      "properties": {
+        "region": "us-east-1",
+        "title": "Data Monitors: Missing Text and Drift",
+        "view": "timeSeries",
+        "metrics": [
+          [
+            "YelpSentimentMLOps/Monitoring",
+            "DataMissingTextRate",
+            "Project",
+            "YelpSentimentMLOps"
+          ],
+          [
+            ".",
+            "DataAvgWordCountDrift",
+            ".",
+            "."
+          ],
+          [
+            ".",
+            "PredictionPositiveShareDrift",
+            ".",
+            "."
+          ]
+        ],
+        "yAxis": {
+          "left": {
+            "min": 0
+          }
+        }
+      }
+    },
+    {
+      "type": "metric",
+      "x": 0,
+      "y": 9,
+      "width": 12,
+      "height": 6,
+      "properties": {
+        "region": "us-east-1",
+        "title": "Infrastructure Monitor: SageMaker Job Health",
+        "view": "timeSeries",
+        "metrics": [
+          [
+            "YelpSentimentMLOps/Monitoring",
+            "TrainingJobSucceeded",
+            "Project",
+            "YelpSentimentMLOps"
+          ],
+          [
+            ".",
+            "BatchTransformJobSucceeded",
+            ".",
+            "."
+          ]
+        ],
+        "yAxis": {
+          "left": {
+            "min": 0,
+            "max": 1
+          }
+        }
+      }
+    },
+    {
+      "type": "text",
+      "x": 12,
+      "y": 9,
+      "width": 12,
+      "height": 6,
+      "properties": {
+        "markdown": "## Latest SageMaker Jobs\nTraining job: `sagemaker-scikit-learn-2026-05-30-05-10-35-293`\n\nTransform job: `sagemaker-xgboost-2026-06-02-01-40-23-275`\n\nBatch output: `s3://yelp-sentiment-mlops-045456814877/batch/week4-sentiment/output/`"
+      }
+    }
+  ]
+}

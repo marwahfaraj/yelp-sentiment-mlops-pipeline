@@ -1,0 +1,6 @@
+source,stage,row_count,positive_share,negative_share
+train,pre_model,20000,0.5,0.5
+validation,pre_model,5000,0.5,0.5
+test,pre_model,5000,0.5,0.5
+production_input,pre_model,20000,0.5,0.5
+batch_transform_output,post_model,20000,0.4948,0.5052

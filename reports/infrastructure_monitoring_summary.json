@@ -1,0 +1,12 @@
+{
+  "training_job_name": "sagemaker-scikit-learn-2026-05-30-05-10-35-293",
+  "training_job_status": "Completed",
+  "training_secondary_status": "Completed",
+  "training_billable_seconds": 129,
+  "training_job_succeeded": 1,
+  "latest_transform_job_name": "sagemaker-xgboost-2026-06-02-01-40-23-275",
+  "latest_transform_job_status": "Completed",
+  "latest_transform_job_succeeded": 1,
+  "latest_transform_output_path": "s3://sagemaker-us-east-1-045456814877/sagemaker-xgboost-2026-06-02-01-40-23-275",
+  "checked_at_utc": "2026-06-03T19:05:40.123804+00:00"
+}

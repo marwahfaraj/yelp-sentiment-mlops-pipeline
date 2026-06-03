@@ -1,0 +1,5 @@
+split,row_count,missing_clean_text_count,missing_clean_text_rate,avg_review_word_count,p95_review_word_count,positive_share
+train,20000,0,0.0,109.8027,303.0499999999993,0.5
+validation,5000,0,0.0,109.8568,304.0,0.5
+test,5000,0,0.0,110.6046,314.0,0.5
+production,20000,0,0.0,109.37045,303.0,0.5

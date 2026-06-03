@@ -1,0 +1,13 @@
+{
+  "quality_gate_metric": "macro_f1",
+  "quality_gate_threshold": 0.8,
+  "benchmark_test_macro_f1": 0.3333333333333333,
+  "trained_model_test_macro_f1": 0.9407949888878596,
+  "trained_model_test_accuracy": 0.9408,
+  "quality_gate_status": "PASS",
+  "batch_prediction_count": 20000,
+  "batch_prediction_positive_share": 0.4948,
+  "prediction_positive_share_drift_vs_test": 0.005199999999999982,
+  "prediction_positive_share_drift_threshold": 0.15,
+  "prediction_distribution_status": "PASS"
+}

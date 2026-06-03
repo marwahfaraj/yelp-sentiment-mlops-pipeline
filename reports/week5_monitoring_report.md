@@ -4,8 +4,8 @@
 
 - Model monitors: macro F1 quality gate, prediction distribution drift, benchmark comparison, bias checks, and explainability proxy drift.
 - Data monitors: missing text rate, review length drift, class distribution drift.
-- Infrastructure monitors: SageMaker training job status and latest Batch Transform job status.
-- CloudWatch dashboard: custom metric dashboard for model, data, and infrastructure monitors.
+- Infrastructure monitors: SageMaker training job status and matching Batch Transform job status.
+- CloudWatch dashboard: custom metric dashboard for model, data, bias/explainability, and infrastructure monitors.
 - SageMaker reports: model, data, infrastructure, bias/explainability, and failure-mode artifacts saved under `reports/`.
 
 ## Model Monitoring Summary
@@ -24,10 +24,17 @@
 - Word count drift status: **PASS**
 - Positive-share drift status: **PASS**
 
+## Bias and Explainability Monitoring Summary
+
+- Post-model bias status: **PASS**
+- Post-model positive-share drift: 0.0052
+- Max term-frequency drift: 0.0003
+- Top drift terms: pizza, time, food, waitress, wasn
+
 ## Infrastructure Monitoring Summary
 
 - Training job: `sagemaker-scikit-learn-2026-05-30-05-10-35-293` (Completed)
-- Latest Batch Transform job: `sagemaker-xgboost-2026-06-02-01-40-23-275` (Completed)
+- Batch Transform job: `sagemaker-scikit-learn-2026-05-30-05-13-58-189` (Completed)
 - CloudWatch dashboard: `yelp-sentiment-week5-monitoring`
 
 ## Artifacts
@@ -39,3 +46,8 @@
 - `reports/cloudwatch_dashboard_body.json`
 - `reports/model_monitoring_dashboard.png`
 - `reports/data_monitoring_dashboard.png`
+- `reports/bias_monitoring_metrics.csv`
+- `reports/explainability_drift_metrics.csv`
+- `reports/bias_explainability_monitoring_summary.json`
+- `reports/bias_explainability_monitoring_dashboard.png`
+- `reports/monitoring_failure_modes.md`

@@ -32,11 +32,12 @@ The full Yelp archive is too large for GitHub, so it lives in Amazon S3 (`s3://<
 
 ## Machine Learning Approach
 
-- **Baseline:** TF-IDF + Logistic Regression
-- **Advanced model:** Hugging Face transformer (DistilBERT or similar)
+- **Benchmark:** majority-class baseline (macro F1 0.3333) to establish a floor.
+- **Production model:** TF-IDF + Logistic Regression, trained as a SageMaker SKLearn training job.
 - **Task type:** supervised binary text classification
 - **Target labels:** `positive`, `negative`
 - **Evaluation metrics:** accuracy, precision, recall, F1-score (macro), confusion matrix. Macro F1 is the primary gate metric because both classes matter.
+- **Results:** the trained model reaches macro F1 0.9408 on the held-out test split, and an improved-hyperparameter version reaches 0.9446 through the CI/CD pipeline (both above the 0.80 quality gate).
 
 ## AWS MLOps Architecture
 
@@ -48,13 +49,11 @@ The full Yelp archive is too large for GitHub, so it lives in Amazon S3 (`s3://<
 | Data catalog and SQL query | AWS Glue Catalog + Amazon Athena |
 | Preprocessing and EDA | Amazon SageMaker Studio notebooks |
 | Feature management | Amazon SageMaker Feature Store (offline store on S3, queryable via Athena) |
-| Model training | SageMaker Training Job / Hugging Face Estimator |
-| Experiment tracking | SageMaker Experiments |
-| Model versioning | SageMaker Model Registry |
-| Pipeline orchestration / CI-CD DAG | SageMaker Pipelines (with `ConditionStep` quality gate) |
+| Model training | SageMaker SKLearn Training Job |
+| Model versioning | SageMaker Model Registry (`yelp-sentiment-models`) |
+| Pipeline orchestration / CI-CD DAG | SageMaker Pipelines (with `ConditionStep` quality gate and `FailStep`) |
 | Batch scoring | SageMaker Batch Transform |
-| Optional real-time | SageMaker Endpoint |
-| Data and model monitoring | SageMaker Model Monitor + Amazon CloudWatch |
+| Data and model monitoring | Custom batch monitors + Amazon CloudWatch dashboard and alarms |
 
 See `docs/aws_mlops_plan.md` for the full implementation plan and S3 layout.
 
@@ -64,7 +63,6 @@ See `docs/aws_mlops_plan.md` for the full implementation plan and S3 layout.
 .
 ├── README.md
 ├── requirements.txt
-├── AAI_540_ML_Design_Document.md
 ├── LICENSE
 ├── assets/
 │   ├── yelp_sentiment_project_overview.png
@@ -77,16 +75,25 @@ See `docs/aws_mlops_plan.md` for the full implementation plan and S3 layout.
 │   ├── 01_setup_S3_bucket.ipynb
 │   ├── 02_data_exploration_EDA.ipynb
 │   ├── 03_feature_engineering_feature_store.ipynb
-│   └── 04_dataset_splits.ipynb
+│   ├── 04_dataset_splits.ipynb
+│   ├── 05_model_training_evaluation_deployment.ipynb
+│   ├── 06_model_data_infrastructure_monitoring.ipynb
+│   ├── 07_cicd_sagemaker_pipeline.ipynb
+│   └── plot_style.py
 ├── athena_queries/
 │   ├── 01_Create_Athena_Database.ipynb
 │   ├── 02_Register_S3_With_Athena.ipynb
 │   └── 03_Convert_CSV_To_Parquet_With_Athena.ipynb
+├── src/
+│   ├── preprocessing.py          # SageMaker Pipeline preprocessing/validation step
+│   ├── train_sklearn.py          # TF-IDF + Logistic Regression training entry point
+│   ├── evaluation.py             # SageMaker Pipeline evaluation step (quality gate input)
+│   └── inference.py              # Batch Transform inference handlers
 ├── docs/
 │   ├── aws_mlops_plan.md
 │   └── week_progress.md
-├── models/                       # populated by the SageMaker training notebooks
-└── reports/                      # populated by EDA and evaluation notebooks
+├── models/                       # model binaries are stored in S3, not Git
+└── reports/                      # EDA charts, evaluation metrics, monitoring + CI/CD reports
 ```
 
 ## Running the Project
@@ -120,8 +127,12 @@ Each notebook persists its variables with `%store` so the next notebook can pick
 | 5    | `notebooks/02_data_exploration_EDA.ipynb`                    | EDA charts in `reports/`                      |
 | 6    | `notebooks/03_feature_engineering_feature_store.ipynb`       | SageMaker Feature Group + 40/10/10/40 splits  |
 | 7    | `notebooks/04_dataset_splits.ipynb`                          | Verified splits + rubric class-balance check  |
+| 8    | `notebooks/05_model_training_evaluation_deployment.ipynb`    | Benchmark, SageMaker training, evaluation, Batch Transform deployment |
+| 9    | `notebooks/06_model_data_infrastructure_monitoring.ipynb`    | Model/data/infrastructure monitors + CloudWatch dashboard and alarms |
+| 10   | `notebooks/07_cicd_sagemaker_pipeline.ipynb`                 | CI/CD SageMaker Pipeline, quality gate, Model Registry, batch deployment |
 
-Later modules will add training, model registry, SageMaker Pipeline (CI/CD DAG), batch transform, and Model Monitor notebooks.
+Notebooks 01–06 only need to be rerun if the upstream S3 data changes. Notebook 07 reads the
+existing splits from S3 and runs the full CI/CD pipeline on its own.
 
 ## Dataset Splits
 
@@ -134,36 +145,43 @@ Later modules will add training, model registry, SageMaker Pipeline (CI/CD DAG),
 
 Splits are stratified by `sentiment_label`, persisted as `split_type` in the Feature Group, and materialized to `s3://<bucket>/processed/splits/{train,validation,test,production}/`.
 
-## CI/CD Quality Gate
+## CI/CD Pipeline
 
-A SageMaker Pipeline `ConditionStep` (to be added in the Pipelines module) will require:
+`notebooks/07_cicd_sagemaker_pipeline.ipynb` defines and runs a SageMaker Pipeline that automates the full workflow:
 
 ```text
-macro F1-score (validation) >= 0.80
+YelpPreprocess -> YelpTrain -> YelpEvaluate -> YelpF1Gate -> (Register + CreateModel + BatchTransform) or FailStep
 ```
 
-Models that pass are registered to the SageMaker Model Registry. Models that fail block deployment and require investigation.
+The `ConditionStep` quality gate requires:
 
-## Monitoring Plan
+```text
+macro F1-score (test) >= 0.80
+```
 
-SageMaker Model Monitor + CloudWatch will track:
+Models that pass are registered to the SageMaker Model Registry (`yelp-sentiment-models`) and deployed via Batch Transform; models that fail route to a `FailStep` that blocks deployment. The pipeline was run twice — a baseline model (macro F1 0.9408) and an improved-hyperparameter model (macro F1 0.9446) — both through the same checkpoints. Results are captured in `reports/cicd_pipeline_summary.md`.
 
-- Missing or empty review text
-- Review-length drift versus the training baseline
-- Sentiment prediction distribution drift
-- Model quality (F1 / precision / recall) when labeled feedback is available
-- Endpoint or batch-transform latency, error rate, CPU and memory utilization
+## Monitoring
+
+`notebooks/06_model_data_infrastructure_monitoring.ipynb` implements monitoring for the batch workflow and publishes custom metrics, alarms, and a CloudWatch dashboard (`yelp-sentiment-week5-monitoring`):
+
+- **Data monitors:** missing/empty review text, review-length drift, and class-distribution drift versus the training baseline.
+- **Model monitors:** test-set macro F1 quality gate and batch prediction distribution drift.
+- **Bias & explainability:** class-balance comparison and a TF-IDF token-frequency drift proxy.
+- **Infrastructure monitors:** SageMaker training and Batch Transform job health.
+
+Monitoring outputs are saved under `reports/` (see `week5_monitoring_report.md`, the `*_monitoring_summary.json` files, and the dashboard PNGs).
 
 ## Security & Privacy
 
 - No PHI or credit card data is processed.
 - Yelp records include user and business identifiers; raw user-level records are never published in reports.
 - All data is stored in account-owned S3 with IAM-controlled access.
-- Reviews may contain biased or culturally specific language; bias analysis with SageMaker Clarify is included in a later module.
+- Reviews may contain biased or culturally specific language; class-balance bias and a token-drift explainability proxy are tracked in the monitoring notebook (SageMaker Clarify/SHAP can replace this proxy for a future transformer model).
 
 ## Final Deliverables
 
-- ML Design Document (`AAI_540_ML_Design_Document.md`)
+- ML System Design Document (submitted separately by the team)
 - AWS-native codebase in this repository
 - 10-15 minute video demonstration of the running system
 

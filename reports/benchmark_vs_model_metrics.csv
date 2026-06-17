@@ -1,5 +1,5 @@
 model,split,row_count,accuracy,precision_macro,recall_macro,f1_macro
 majority_class_benchmark,validation,5000,0.5,0.25,0.5,0.3333333333333333
 majority_class_benchmark,test,5000,0.5,0.25,0.5,0.3333333333333333
-tfidf_logistic_regression,validation,5000,0.939,0.9391181052055761,0.9390000000000001,0.938995898084187
-tfidf_logistic_regression,test,5000,0.9408,0.9409492877908745,0.9408,0.9407949888878595
+tfidf_logistic_regression,validation,5000,0.9442,0.9443707094517431,0.9441999999999999,0.9441946404532691
+tfidf_logistic_regression,test,5000,0.9468,0.9469787915166066,0.9468,0.9467946794679467

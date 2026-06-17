@@ -10,13 +10,13 @@
 ## Test Metrics
 
 - Benchmark macro F1: 0.3333
-- Trained model macro F1: 0.9408
-- Trained model accuracy: 0.9408
+- Trained model macro F1: 0.9468
+- Trained model accuracy: 0.9468
 
 ## Artifacts
 
-- Model artifact: `s3://yelp-sentiment-mlops-045456814877/models/week4-sklearn-sentiment/artifacts/sagemaker-scikit-learn-2026-05-30-05-10-35-293/output/model.tar.gz`
-- Batch input: `s3://yelp-sentiment-mlops-045456814877/batch/week4-sentiment/input/production_text.txt`
-- Batch output: `s3://yelp-sentiment-mlops-045456814877/batch/week4-sentiment/output/`
+- Model artifact: `s3://yelp-sentiment-mlops-965705611982/models/week4-sklearn-sentiment/artifacts/sagemaker-scikit-learn-2026-06-11-02-04-34-891/output/model.tar.gz`
+- Batch input: `s3://yelp-sentiment-mlops-965705611982/batch/week4-sentiment/input/production_text.txt`
+- Batch output: `s3://yelp-sentiment-mlops-965705611982/batch/week4-sentiment/output/`
 - Metrics CSV: `reports/benchmark_vs_model_metrics.csv`
 - Confusion matrix: `reports/confusion_matrix.png`

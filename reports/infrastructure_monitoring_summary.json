@@ -1,12 +1,12 @@
 {
-  "training_job_name": "sagemaker-scikit-learn-2026-05-30-05-10-35-293",
+  "training_job_name": "sagemaker-scikit-learn-2026-06-11-02-04-34-891",
   "training_job_status": "Completed",
   "training_secondary_status": "Completed",
-  "training_billable_seconds": 129,
+  "training_billable_seconds": 135,
   "training_job_succeeded": 1,
-  "batch_transform_job_name": "sagemaker-scikit-learn-2026-05-30-05-13-58-189",
+  "batch_transform_job_name": "sagemaker-scikit-learn-2026-06-11-02-08-15-502",
   "batch_transform_job_status": "Completed",
   "batch_transform_job_succeeded": 1,
-  "batch_transform_output_path": "s3://yelp-sentiment-mlops-045456814877/batch/week4-sentiment/output/",
-  "checked_at_utc": "2026-06-03T19:28:34.114410+00:00"
+  "batch_transform_output_path": "s3://yelp-sentiment-mlops-965705611982/batch/week4-sentiment/output/",
+  "checked_at_utc": "2026-06-11T02:20:39.397810+00:00"
 }

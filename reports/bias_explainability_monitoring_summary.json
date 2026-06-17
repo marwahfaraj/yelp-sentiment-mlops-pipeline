@@ -1,8 +1,8 @@
 {
   "bias_monitor": {
     "baseline_positive_share": 0.5,
-    "post_model_positive_share": 0.4948,
-    "post_model_positive_share_drift": 0.005199999999999982,
+    "post_model_positive_share": 0.49475,
+    "post_model_positive_share_drift": 0.005249999999999977,
     "post_model_positive_share_drift_threshold": 0.15,
     "post_model_bias_status": "PASS",
     "pre_model_bias_note": "Production input class balance is monitored using sentiment_label because this is a simulated production split for the class project.",
@@ -11,19 +11,19 @@
   "explainability_proxy_monitor": {
     "method": "TF-IDF explainability proxy using token frequency drift",
     "note": "For a future transformer or endpoint version, SageMaker Clarify/SHAP can replace this proxy.",
-    "max_term_frequency_drift": 0.0003488411289972659,
-    "mean_top20_term_frequency_drift": 0.00021679076145342605,
+    "max_term_frequency_drift": 0.0003433553502091868,
+    "mean_top20_term_frequency_drift": 0.0002495012336202399,
     "top_drift_terms": [
-      "pizza",
-      "time",
+      "burger",
+      "service",
+      "great",
+      "going",
+      "ordered",
       "food",
-      "waitress",
-      "wasn",
-      "favorite",
-      "make",
-      "went",
-      "try",
-      "beer"
+      "like",
+      "cake",
+      "room",
+      "server"
     ]
   }
 }

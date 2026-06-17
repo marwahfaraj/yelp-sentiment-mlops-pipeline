@@ -15,9 +15,9 @@
 
 ## Review Length (10% sample)
 
-- Average characters per review: 548.6
-- Median characters per review: 396.0
-- 95th percentile: 1510.0
+- Average characters per review: 548.1
+- Median characters per review: 390.0
+- 95th percentile: 1499.0
 
 ## Data Quality
 

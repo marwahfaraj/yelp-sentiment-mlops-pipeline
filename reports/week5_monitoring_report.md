@@ -11,7 +11,7 @@
 ## Model Monitoring Summary
 
 - Benchmark test macro F1: 0.3333
-- Trained model test macro F1: 0.9408
+- Trained model test macro F1: 0.9468
 - Quality gate status: **PASS**
 - Batch prediction count: 20,000
 - Prediction drift status: **PASS**
@@ -20,7 +20,7 @@
 
 - Production missing text rate: 0.0000
 - Missing text status: **PASS**
-- Average word count relative drift: 0.0039
+- Average word count relative drift: 0.0112
 - Word count drift status: **PASS**
 - Positive-share drift status: **PASS**
 
@@ -29,12 +29,12 @@
 - Post-model bias status: **PASS**
 - Post-model positive-share drift: 0.0052
 - Max term-frequency drift: 0.0003
-- Top drift terms: pizza, time, food, waitress, wasn
+- Top drift terms: burger, service, great, going, ordered
 
 ## Infrastructure Monitoring Summary
 
-- Training job: `sagemaker-scikit-learn-2026-05-30-05-10-35-293` (Completed)
-- Batch Transform job: `sagemaker-scikit-learn-2026-05-30-05-13-58-189` (Completed)
+- Training job: `sagemaker-scikit-learn-2026-06-11-02-04-34-891` (Completed)
+- Batch Transform job: `sagemaker-scikit-learn-2026-06-11-02-08-15-502` (Completed)
 - CloudWatch dashboard: `yelp-sentiment-week5-monitoring`
 
 ## Artifacts

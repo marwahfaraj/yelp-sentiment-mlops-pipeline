@@ -120,7 +120,7 @@
       "width": 12,
       "height": 6,
       "properties": {
-        "markdown": "## Latest SageMaker Jobs\nTraining job: `sagemaker-scikit-learn-2026-05-30-05-10-35-293`\n\nTransform job: `sagemaker-scikit-learn-2026-05-30-05-13-58-189`\n\nBatch output: `s3://yelp-sentiment-mlops-045456814877/batch/week4-sentiment/output/`"
+        "markdown": "## Latest SageMaker Jobs\nTraining job: `sagemaker-scikit-learn-2026-06-11-02-04-34-891`\n\nTransform job: `sagemaker-scikit-learn-2026-06-11-02-08-15-502`\n\nBatch output: `s3://yelp-sentiment-mlops-965705611982/batch/week4-sentiment/output/`"
       }
     }
   ]
